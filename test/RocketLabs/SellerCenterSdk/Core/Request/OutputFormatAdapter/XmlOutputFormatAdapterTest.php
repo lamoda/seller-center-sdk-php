@@ -92,6 +92,14 @@ final class XmlOutputFormatAdapterTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
                 '$expectedResult' => "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Request><Product><SellerSku>4105382173aaee4</SellerSku><Price>12</Price></Product><Product><SellerSku>4928a374c28ff1</SellerSku><Quantity>4</Quantity></Product></Request>\n",
+            ],
+            'special chars' => [
+                '$data' => [
+                    'Attribute' => [
+                        'Name' => '«Mélange»',
+                    ],
+                ],
+                '$expectedResult' => "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Request><Attribute><Name>«Mélange»</Name></Attribute></Request>\n"
             ]
         ];
     }

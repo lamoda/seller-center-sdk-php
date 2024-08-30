@@ -5,9 +5,12 @@
   "require": {
     "php": ">=5.5",
     "guzzlehttp/guzzle": "~6.1",
-    "psr/http-message": "~1.0"
+    "psr/http-message": "~1.0",
+    "ext-simplexml": "*",
+    "ext-dom": "*"
   },
   "require-dev": {
+    "php": "<8.0",
     "phpunit/phpunit": "~4.8,<5.2"
   },
   "autoload": {

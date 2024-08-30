@@ -40,7 +40,7 @@ class XmlOutputFormatAdapter implements OutputFormatAdapterInterface
                 $this->addToNode($value, $newNode, $node);
             }
         } else {
-            dom_import_simplexml($node)->nodeValue = htmlentities($content);
+            dom_import_simplexml($node)->nodeValue = htmlentities($content, ENT_XML1);
         }
     }
 }

@@ -3,10 +3,25 @@
 PHP 5.5 and later.
 
 ### Composer
-You can install the sdk via [Composer](http://getcomposer.org/). Run the following command:
+You can install the sdk via [Composer](http://getcomposer.org/).
 
+Make some changes in your composer.json file:
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lamoda/seller-center-sdk-php"
+        }
+    ],
+    "require": {
+        "gfg/seller-center-sdk-php": "dev-master"
+    }
+}
+```
+Then run the following command:
 ```bash
-composer require rocket-labs/sellercenter-sdk-php
+composer update rocket-labs/sellercenter-sdk-php
 ```
 
 To use the sdk code, use Composer's [autoload](https://getcomposer.org/doc/00-intro.md#autoloading):
