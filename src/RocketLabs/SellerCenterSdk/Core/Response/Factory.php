@@ -15,19 +15,21 @@ class Factory
     /**
      * @param HttpResponseInterface $httpResponse
      * @param string $class class name
-     * @return GenericResponse
+     * @return AbstractResponse
      */
     public function buildResponse(HttpResponseInterface $httpResponse, $class = GenericResponse::class)
     {
         if ($httpResponse->getStatusCode() !== self::HTTP_CODE_200) {
-            throw new ApiException(ApiException::UNEXPECTED_RESPONSE, $httpResponse->getStatusCode());
+            throw new ApiException(ApiException::UNEXPECTED_RESPONSE.sprintf(
+                    ": [code %s] %s",
+                    $httpResponse->getStatusCode(),
+                    $httpResponse->getBody()
+                ),
+                $httpResponse->getStatusCode()
+            );
         }
 
-        $decodedResponse = $this->decodeJsonResponse((string)$httpResponse->getBody());
-
-        if ($decodedResponse === null) {
-            throw new ApiException(ApiException::INVALID_RESPONSE_BODY, $httpResponse->getStatusCode());
-        }
+        $decodedResponse = $this->decodeJsonResponse($httpResponse);
 
         $envelope = key($decodedResponse);
 
@@ -39,19 +41,20 @@ class Factory
     }
 
     /**
-     * @param string $apiResponseBody
+     * @param HttpResponseInterface $response
      *
-     * @return array|null
+     * @return array
      */
-    protected function decodeJsonResponse($apiResponseBody)
+    protected function decodeJsonResponse($response)
     {
-        $jsonDecoded = json_decode($apiResponseBody, true);
+        $body = (string)$response->getBody();
+        $jsonDecoded = json_decode($body, true);
 
         // Only array could be valid api response
         if (is_array($jsonDecoded)) {
             return $jsonDecoded;
         }
 
-        return null;
+        throw new ApiException(sprintf("%s: %s", ApiException::INVALID_RESPONSE_BODY, $body), $response->getStatusCode());
     }
 }
